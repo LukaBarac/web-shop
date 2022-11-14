@@ -1,0 +1,22 @@
+package com.example.ecommerce_web_shop.service;
+
+import com.example.ecommerce_web_shop.dto.ProductDto;
+import com.example.ecommerce_web_shop.model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+
+public interface ProductService {
+
+    List<ProductDto> getProducts();
+    ProductDto getProductById(int id/*, ProductDto productDto*/);
+
+    List<ProductDto> findNewProducts();
+
+    ProductDto createProduct(ProductDto productDto);
+
+    List<ProductDto> addProducts(List<ProductDto> products);
+
+    void deleteProduct(int productId);
+}

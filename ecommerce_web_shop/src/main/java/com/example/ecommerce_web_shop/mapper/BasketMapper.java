@@ -1,0 +1,54 @@
+package com.example.ecommerce_web_shop.mapper;
+
+import com.example.ecommerce_web_shop.dto.BasketContentsDto;
+import com.example.ecommerce_web_shop.dto.BasketDto;
+import com.example.ecommerce_web_shop.model.Basket;
+import com.example.ecommerce_web_shop.model.BasketContents;
+import com.example.ecommerce_web_shop.model.User;
+import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
+
+@Component
+public class BasketMapper {
+
+    public BasketDto map(Basket basket){
+        BasketDto basketDto = new BasketDto();
+        basketDto.setUserId(basket.getUser().getId());
+        if (basket.getBasketContents() == null){    // == null  i  .isEmpty() NIJE ISTO!
+            basketDto.setBasketContents(null);  // bez ovog if-a on bi izbacio error da je basketContents null, a ovako sta nece se buniti ako mu ja eksplicitno kazem da jeste zapravo null
+        } else {
+            basketDto.setBasketContents(basket.getBasketContents().stream().map(bc -> map(bc)).collect(Collectors.toList()));
+            /*System.out.println("4 content size " + basketDto.getBasketContents().size());*/
+        }
+       /* return new BasketDto(basket.getId(),                                      //random basketconent promenljiva u lambdi
+                basket.getBasketContents().stream().map(bc -> map(bc)).collect(Collectors.toList()));*/
+        return basketDto;
+    }
+
+    public BasketContentsDto map(BasketContents basketContents){
+        return new BasketContentsDto(basketContents.getBasket().getId(),
+                basketContents.getProduct().getId(),
+//                 basketContents.getProduct().getName(),
+//                 basketContents.getProduct().getPrice(),
+                basketContents.getQuantity());
+    }
+
+    public Basket map(User user){
+        return new Basket(user);
+    }
+    // ako mapper pretvara dto u model i obrnuto, zasto onda ovo postoji?
+
+/*
+    public List<BasketContentsDto> map1(List<Basket> baskets){
+        return new BasketContentsDto(baskets.get());
+    }
+*/
+
+/*
+    public BasketDto radi(Basket basket){
+        return new Basket();
+    }
+*/
+
+}
