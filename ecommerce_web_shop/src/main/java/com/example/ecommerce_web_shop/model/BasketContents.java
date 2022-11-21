@@ -4,14 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-/*@Table(name = "basket_contents")*/
-//@ToString         // RADI I SA I BEZ OVOGA
 public class BasketContents {
 
     @EmbeddedId

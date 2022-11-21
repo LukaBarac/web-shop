@@ -2,7 +2,6 @@ package com.example.ecommerce_web_shop.service.impl;
 
 import com.example.ecommerce_web_shop.dto.BasketContentsDto;
 import com.example.ecommerce_web_shop.dto.BasketDto;
-import com.example.ecommerce_web_shop.dto.ProductDto;
 import com.example.ecommerce_web_shop.exception.BadRequestException;
 import com.example.ecommerce_web_shop.exception.NotFoundException;
 import com.example.ecommerce_web_shop.mapper.BasketMapper;

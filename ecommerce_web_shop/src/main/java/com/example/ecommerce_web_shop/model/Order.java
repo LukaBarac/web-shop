@@ -1,0 +1,45 @@
+package com.example.ecommerce_web_shop.model;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
+
+
+@Entity
+@Table(name = "orders")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String address;
+    private String city;
+    @Column(nullable = true)
+    private double totalPrice;
+
+    @CreationTimestamp
+    private LocalDate dateCreated;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderContents> orderContents; // po logici treba composite key // vidi screenshot scheme baze
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Order(String address, String city, double totalPrice, User user) {
+        this.address = address;
+        this.city = city;
+        this.totalPrice = totalPrice;
+        this.user = user;
+    }
+}

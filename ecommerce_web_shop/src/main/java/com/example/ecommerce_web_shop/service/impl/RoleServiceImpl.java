@@ -2,7 +2,6 @@ package com.example.ecommerce_web_shop.service.impl;
 
 import com.example.ecommerce_web_shop.dto.RoleDto;
 import com.example.ecommerce_web_shop.mapper.RoleMapper;
-import com.example.ecommerce_web_shop.model.Role;
 import com.example.ecommerce_web_shop.repositories.RoleRepository;
 import com.example.ecommerce_web_shop.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;

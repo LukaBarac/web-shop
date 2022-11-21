@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class ProductDto {
+public class OrderContentsDto {
 
-    private String name;
+
+    private String productName;
+    private int productQuantity;
     private double price;
-    private int stockAmount;
+
 }

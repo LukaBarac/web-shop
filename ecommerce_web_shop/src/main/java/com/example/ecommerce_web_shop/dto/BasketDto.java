@@ -15,5 +15,4 @@ public class BasketDto {
 
     private int userId;
     private List<BasketContentsDto> basketContents;
-
 }

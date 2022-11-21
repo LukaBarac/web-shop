@@ -1,40 +1,25 @@
 package com.example.ecommerce_web_shop.service.impl;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.DecodedJWT;
+
 import com.example.ecommerce_web_shop.dto.CreateUserDto;
 import com.example.ecommerce_web_shop.dto.UserDto;
 import com.example.ecommerce_web_shop.exception.NotFoundException;
 import com.example.ecommerce_web_shop.mapper.UserMapper;
-import com.example.ecommerce_web_shop.model.Role;
 import com.example.ecommerce_web_shop.model.User;
 import com.example.ecommerce_web_shop.repositories.RoleRepository;
 import com.example.ecommerce_web_shop.repositories.UserRepository;
 import com.example.ecommerce_web_shop.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static java.util.Arrays.stream;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {

@@ -4,6 +4,7 @@ import com.example.ecommerce_web_shop.model.BasketContents;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BasketContentsRepository extends JpaRepository<BasketContents, Integer> {
@@ -11,6 +12,8 @@ public interface BasketContentsRepository extends JpaRepository<BasketContents, 
 
 
     Optional<BasketContents> findByBasketIdAndProductId(int basketId, int productId); //mora optional zbog oreslsethrow
+
+    List<BasketContents> findAllByBasketId(int basketId);
     //uzmi da procitas o transactional
     @Transactional
     void deleteByBasketId(int basketId);

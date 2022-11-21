@@ -2,8 +2,6 @@ package com.example.ecommerce_web_shop.service;
 
 import com.example.ecommerce_web_shop.dto.CreateUserDto;
 import com.example.ecommerce_web_shop.dto.UserDto;
-import com.example.ecommerce_web_shop.model.Role;
-import com.example.ecommerce_web_shop.model.User;
 
 import java.util.List;
 

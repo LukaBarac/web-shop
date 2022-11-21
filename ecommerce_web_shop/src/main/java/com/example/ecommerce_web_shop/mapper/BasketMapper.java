@@ -19,10 +19,7 @@ public class BasketMapper {
             basketDto.setBasketContents(null);  // bez ovog if-a on bi izbacio error da je basketContents null, a ovako sta nece se buniti ako mu ja eksplicitno kazem da jeste zapravo null
         } else {
             basketDto.setBasketContents(basket.getBasketContents().stream().map(bc -> map(bc)).collect(Collectors.toList()));
-            /*System.out.println("4 content size " + basketDto.getBasketContents().size());*/
         }
-       /* return new BasketDto(basket.getId(),                                      //random basketconent promenljiva u lambdi
-                basket.getBasketContents().stream().map(bc -> map(bc)).collect(Collectors.toList()));*/
         return basketDto;
     }
 

@@ -1,15 +1,16 @@
 package com.example.ecommerce_web_shop.service.impl;
+import com.example.ecommerce_web_shop.dto.CityDto;
 import com.example.ecommerce_web_shop.dto.ProductDto;
+import com.example.ecommerce_web_shop.dto.ReportDto;
+import com.example.ecommerce_web_shop.dto.TopProductsDto;
 import com.example.ecommerce_web_shop.exception.NotFoundException;
+import com.example.ecommerce_web_shop.mapper.CityMapper;
 import com.example.ecommerce_web_shop.mapper.ProductMapper;
-import com.example.ecommerce_web_shop.model.Product;
+import com.example.ecommerce_web_shop.mapper.ReportMapper;
+import com.example.ecommerce_web_shop.model.ProductReport;
 import com.example.ecommerce_web_shop.repositories.ProductRepository;
 import com.example.ecommerce_web_shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private CityMapper cityMapper;
+
+    @Autowired
+    private ReportMapper reportMapper;
 
     @Override
     public List<ProductDto> getProducts() {
@@ -55,5 +62,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(int productId) {
         this.productRepository.deleteById(productId);
+    }
+
+    @Override
+    public List<TopProductsDto> getTopProducts() {
+        return productRepository.findTopProducts().stream().map(productMapper::convert).collect(Collectors.toList());
+    }
+
+    @Override
+    public ReportDto getReport(int productId) {
+        ProductReport productReport = productRepository.findProductNameAndPrice(productId)
+                .orElseThrow(() -> new NotFoundException("product not found"));
+        List<CityDto> cityDtos = productRepository.findCitiesInfo(productId).stream()
+                .map(c -> cityMapper.map(c, productReport.getProductPrice())).toList();
+        return reportMapper.map(cityDtos, productReport);
     }
 }

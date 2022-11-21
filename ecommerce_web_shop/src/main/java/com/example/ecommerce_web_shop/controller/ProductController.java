@@ -1,11 +1,10 @@
 package com.example.ecommerce_web_shop.controller;
 
 import com.example.ecommerce_web_shop.dto.ProductDto;
-import com.example.ecommerce_web_shop.model.Product;
+import com.example.ecommerce_web_shop.dto.ReportDto;
+import com.example.ecommerce_web_shop.dto.TopProductsDto;
 import com.example.ecommerce_web_shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +31,16 @@ public class ProductController {
     @GetMapping("newProducts")
     public ResponseEntity<List<ProductDto>> getNewProducts(){
         return ResponseEntity.ok(productService.findNewProducts());
+    }
+
+    @GetMapping("topProducts")
+    public ResponseEntity<List<TopProductsDto>> getTopProducts(){
+        return ResponseEntity.ok(productService.getTopProducts());
+    }
+
+    @GetMapping("report/{productId}")
+    public ResponseEntity<ReportDto> findReport(@PathVariable int productId){
+        return ResponseEntity.ok(productService.getReport(productId));
     }
 
     @PostMapping("")

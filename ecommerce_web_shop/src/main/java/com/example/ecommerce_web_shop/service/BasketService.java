@@ -2,7 +2,7 @@ package com.example.ecommerce_web_shop.service;
 
 import com.example.ecommerce_web_shop.dto.BasketContentsDto;
 import com.example.ecommerce_web_shop.dto.BasketDto;
-import com.example.ecommerce_web_shop.dto.ProductDto;
+
 
 import java.util.List;
 

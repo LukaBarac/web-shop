@@ -5,10 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.Date;
+
 
 @Data
 @AllArgsConstructor
@@ -27,7 +30,7 @@ public class Product {
 
     @CreationTimestamp
 /*
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)   // vidi chat sa nikolom
 */
     private LocalDate dateAdded;
 

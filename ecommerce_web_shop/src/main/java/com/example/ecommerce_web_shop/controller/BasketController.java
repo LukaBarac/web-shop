@@ -2,12 +2,10 @@ package com.example.ecommerce_web_shop.controller;
 
 import com.example.ecommerce_web_shop.dto.BasketContentsDto;
 import com.example.ecommerce_web_shop.dto.BasketDto;
-import com.example.ecommerce_web_shop.dto.ProductDto;
 import com.example.ecommerce_web_shop.service.BasketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

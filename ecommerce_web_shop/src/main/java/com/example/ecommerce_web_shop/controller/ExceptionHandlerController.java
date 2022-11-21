@@ -2,7 +2,6 @@ package com.example.ecommerce_web_shop.controller;
 
 import com.example.ecommerce_web_shop.exception.BadRequestException;
 import com.example.ecommerce_web_shop.exception.NotFoundException;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

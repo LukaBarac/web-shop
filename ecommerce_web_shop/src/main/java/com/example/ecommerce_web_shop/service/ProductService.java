@@ -1,9 +1,8 @@
 package com.example.ecommerce_web_shop.service;
 
 import com.example.ecommerce_web_shop.dto.ProductDto;
-import com.example.ecommerce_web_shop.model.Product;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.example.ecommerce_web_shop.dto.ReportDto;
+import com.example.ecommerce_web_shop.dto.TopProductsDto;
 
 import java.util.List;
 
@@ -19,4 +18,8 @@ public interface ProductService {
     List<ProductDto> addProducts(List<ProductDto> products);
 
     void deleteProduct(int productId);
+
+    List<TopProductsDto> getTopProducts();
+
+    ReportDto getReport(int productId);
 }
