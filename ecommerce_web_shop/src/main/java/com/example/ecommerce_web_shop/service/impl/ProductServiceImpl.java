@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto getProductById(int id/*, ProductDto productDto*/) {
+    public ProductDto getProductById(int id) {
         var savedEntity = productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("product does not exist"));
         return productMapper.map(savedEntity);

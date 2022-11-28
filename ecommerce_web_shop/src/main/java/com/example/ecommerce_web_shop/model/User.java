@@ -24,7 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "`user`")
 /*@JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
@@ -39,7 +39,7 @@ public class User {
     private String firstName;
     private String lastName;
 
-    @Email
+
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -50,7 +50,7 @@ public class User {
     //@JsonIgnore
     private Basket basket;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER) //cascadetype.all nece raditi u testu, radi inace
     @JoinColumn(name = "role_id")
     private Role role;
 
@@ -70,5 +70,10 @@ public class User {
         this.password = password;
     }
 
-
+    public User(int id, String firstName, String lastName, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
 }

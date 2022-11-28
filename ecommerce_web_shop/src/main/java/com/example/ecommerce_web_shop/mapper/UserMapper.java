@@ -1,6 +1,7 @@
 package com.example.ecommerce_web_shop.mapper;
 
 import com.example.ecommerce_web_shop.dto.CreateUserDto;
+import com.example.ecommerce_web_shop.dto.RoleDto;
 import com.example.ecommerce_web_shop.dto.UserDto;
 import com.example.ecommerce_web_shop.model.User;
 import org.springframework.stereotype.Component;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
     public UserDto map(User user){
+        RoleDto roleDto = new RoleDto(user.getRole().getName());
         return new UserDto(user.getFirstName(),
                 user.getLastName(),
-                user.getEmail());
+                user.getEmail(),
+                roleDto);
     }
 
     public User map(UserDto userDto){
@@ -27,4 +30,11 @@ public class UserMapper {
                 createUserDto.email(),
                 createUserDto.password()); // ja ovde samo mapiram u Usera, a roleName cu da hvatam iz roleRepository u servisu
     }
+
+  /*  public void mapUpdatedUser(UserDto userDto, User user){
+        if(userDto.getFirstName() != null ) {
+            user.setFirstName(userDto.getFirstName());
+        }
+        if()
+    }*/
 }

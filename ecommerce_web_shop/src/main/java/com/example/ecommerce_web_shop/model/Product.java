@@ -40,5 +40,10 @@ public class Product {
         this.stockAmount = stockAmount;
     }
 
-
+ /*   public Product(int id, String name, double price, int stockAmount) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stockAmount = stockAmount;
+    }*/
 }

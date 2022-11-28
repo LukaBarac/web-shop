@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class RoleMapper {
 
     public Role map(RoleDto roleDto){
-        return new Role(roleDto.name());    // jako cudno
+        return new Role(roleDto.name());
     }
 
     public RoleDto map(Role role){

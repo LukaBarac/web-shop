@@ -17,7 +17,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;    //zasto koristim interfejs?!?!?!
+    private UserService userService;
 
     @GetMapping("")
     public ResponseEntity<List<UserDto>> getUsers(){

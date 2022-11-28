@@ -9,7 +9,7 @@ import java.util.List;
 public interface ProductService {
 
     List<ProductDto> getProducts();
-    ProductDto getProductById(int id/*, ProductDto productDto*/);
+    ProductDto getProductById(int id);
 
     List<ProductDto> findNewProducts();
 

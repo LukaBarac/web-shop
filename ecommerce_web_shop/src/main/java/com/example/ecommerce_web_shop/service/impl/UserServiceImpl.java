@@ -9,6 +9,7 @@ import com.example.ecommerce_web_shop.model.User;
 import com.example.ecommerce_web_shop.repositories.RoleRepository;
 import com.example.ecommerce_web_shop.repositories.UserRepository;
 import com.example.ecommerce_web_shop.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -51,23 +52,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDto createUser(CreateUserDto createUserDto) {
 
         var user = userMapper.map(createUserDto);
+        System.out.println("radi1");
         var role = roleRepository.findByName(createUserDto.roleName())
-                .orElseThrow(() -> new NotFoundException("not found")); // mora optional u Role repo !!!
-
+                .orElseThrow(() -> new NotFoundException("Could not find user with that role name")); // mora optional u Role repo !!!
+        System.out.println("radi2");
         user.setRole(role);
+        System.out.println("radi3");
         user.setPassword(passwordEncoder.encode(user.getPassword())); // trebalo bi da radi?
+        System.out.println("radi4");
         userRepository.save(user);
-
+        System.out.println("radi5");
+        /*System.out.println(savedUser.toString());*/
         return userMapper.map(user);
     }
 
     @Override
     public UserDto updateUser(int id, UserDto userDto) {
-        User updatedUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user does not exist!"));
+        var updatedUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user does not exist!"));
 
-        updatedUser.setFirstName(userDto.getFirstName());
+        /*updatedUser.setFirstName(userDto.getFirstName()); // problem sa ovim je, ako posaljem null setovace null, valjda?
         updatedUser.setLastName(userDto.getLastName());
-        updatedUser.setEmail(userDto.getEmail());  // da li moze da kreira/updatuje novi basket kako hoce? Ne.
+        updatedUser.setEmail(userDto.getEmail());  // da li moze da kreira/updatuje novi basket kako hoce? Ne.*/
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setSkipNullEnabled(true);
+        mapper.map(userDto, updatedUser);   // moj mapper pravi movi entitet u bazi, sa ostalim vrednostima null, pored ove tri
+        /*updatedUser = userMapper.mapUpdatedUser(userDto);*/
         var savedEntity = userRepository.save(updatedUser);
         return userMapper.map(savedEntity);
     }

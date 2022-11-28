@@ -2,11 +2,15 @@ package com.example.ecommerce_web_shop.config;
 
 import com.example.ecommerce_web_shop.filter.CustomAuthenticationFilter;
 import com.example.ecommerce_web_shop.filter.CustomAuthorizationFilter;
+import com.example.ecommerce_web_shop.service.UserService;
+import com.example.ecommerce_web_shop.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -42,10 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
-
-
-
 
     @Bean
     @Override
