@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(GET, "/basket/ceobasket/{basketId}").hasAnyAuthority("ROLE_MANAGER", "ROLE_CUSTOMER");
         http.authorizeRequests().antMatchers(PUT, "/basket/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_CUSTOMER");
         http.authorizeRequests().antMatchers(POST, "/order/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_CUSTOMER");
+        /*http.authorizeRequests().antMatchers(POST, "/order/**").permitAll();*/
         http.authorizeRequests().antMatchers(GET, "/order/**").hasAnyAuthority("ROLE_MANAGER", "ROLE_CUSTOMER");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));

@@ -52,17 +52,11 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(CreateUserDto createUserDto) {
 
         var user = userMapper.map(createUserDto);
-        System.out.println("radi1");
         var role = roleRepository.findByName(createUserDto.roleName())
                 .orElseThrow(() -> new NotFoundException("Could not find user with that role name")); // mora optional u Role repo !!!
-        System.out.println("radi2");
         user.setRole(role);
-        System.out.println("radi3");
         user.setPassword(passwordEncoder.encode(user.getPassword())); // trebalo bi da radi?
-        System.out.println("radi4");
         userRepository.save(user);
-        System.out.println("radi5");
-        /*System.out.println(savedUser.toString());*/
         return userMapper.map(user);
     }
 

@@ -76,4 +76,13 @@ public class User {
         this.lastName = lastName;
         this.email = email;
     }
+
+  /*  public User(int id, String firstName, String lastName, String email, String password, Role role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }*/ //probao da cuvam usera u h2 in memory bazi za integration test
 }
