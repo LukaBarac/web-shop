@@ -59,4 +59,9 @@ public class Basket {
                 "id=" + id +
                 '}';
     }*/
+
+    public Basket(User user, List<BasketContents> basketContents) {
+        this.user = user;
+        this.basketContents = basketContents;
+    }
 }

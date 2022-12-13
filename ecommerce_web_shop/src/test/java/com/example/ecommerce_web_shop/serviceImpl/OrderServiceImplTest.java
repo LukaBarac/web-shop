@@ -3,7 +3,6 @@ package com.example.ecommerce_web_shop.serviceImpl;
 import com.example.ecommerce_web_shop.dto.CreateOrderDto;
 import com.example.ecommerce_web_shop.dto.OrderContentsDto;
 import com.example.ecommerce_web_shop.dto.OrderDto;
-import com.example.ecommerce_web_shop.filter.CustomAuthenticationFilter;
 import com.example.ecommerce_web_shop.mapper.OrderMapper;
 import com.example.ecommerce_web_shop.model.*;
 import com.example.ecommerce_web_shop.repositories.BasketContentsRepository;
@@ -16,17 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 
 import java.time.LocalDate;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,55 +47,74 @@ public class OrderServiceImplTest {
 
     private CreateOrderDto createOrderDto;
     private User user;
-    private BasketContents basketContents;
+    private List<BasketContents> basketContents = new ArrayList<>();
     private Basket basket;
     private Product product;
+    private Product product1;
     private OrderDto orderDto;
-    private List<OrderContentsDto> orderContentsDtos;
+    private List<OrderContentsDto> orderContentsDtos = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
         createOrderDto = new CreateOrderDto("Milutina Milankovica 123", "Beograd", 1, 1);
         user = new User("Ivan", "Ivanovic", "ivanivanovic22@gmail.com");
-        product = new Product("TV", 10, 5);
-        basketContents = new BasketContents(basket, product, 4);
-        orderDto = new OrderDto("Milutina Milankovica 123", "Beograd", 123, LocalDate.of(2022, 12, 1), orderContentsDtos);
-
+        product = new Product("TV", 10.0, 7);
+        product1 = new Product("Mobile Phone", 10.0, 5);
+        var basketContent = new BasketContents(basket, product, 1);
+        var basketContent1 = new BasketContents(basket, product1, 2);
+        basketContents.add(basketContent);
+        basketContents.add(basketContent1);
+        basket = new Basket(user, basketContents);
+        var orderContentsDto = new OrderContentsDto("TV", 1, 10.0);
+        var orderContentsDto1 = new OrderContentsDto("Mobile Phone", 2, 10.0);
+        orderContentsDtos.add(orderContentsDto);
+        orderContentsDtos.add(orderContentsDto1);
+        orderDto = new OrderDto("Milutina Milankovica 123", "Beograd", 10.0, LocalDate.of(2022, 12, 1), orderContentsDtos);
     }
 
     @Test
     @WithMockUser(username = "ivanivanovic22@gmail.com", authorities = {"ROLE_MANAGER"})
     void shouldCreateOrder(){
-       /* try(MockedStatic<SecurityContextHolder> mocked = Mockito.mockStatic(SecurityContextHolder.class)){
-            *//*mocked.when(() -> SecurityContextHolder.getContext().getAuthentication().getName()).thenReturn("ivanivanovic22@gmail.com");*//*
-            mocked.when(SecurityContextHolder::getContext).thenReturn(user);
-            mocked.when(() -> )
-        }*/
-       /* Authentication authentication = Mockito.mock(Authentication.class);
-        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
-        try(MockedStatic<SecurityContextHolder> mocked = Mockito.mockStatic(SecurityContextHolder.class)){
-            mocked.when(SecurityContextHolder::getContext).thenReturn(securityContext);
-            mocked.when(() -> SecurityContextHolder.getContext().getAuthentication()).thenReturn(authentication);
-            mocked.when(() -> SecurityContextHolder.getContext().getAuthentication().getName()).thenReturn("ivanivanovic22@gmail.com");
-        }
-//        when(securityContext.getAuthentication()).thenReturn(authentication); prolazi i bez ovoga
-        SecurityContextHolder.setContext(securityContext);
-        when(securityContext.getAuthentication().getName()).thenReturn("ivanivanovic22@gmail.com");
-*/
 
-        when(basketContentsRepository.findAllByBasketId(anyInt())).thenReturn(Collections.singletonList(basketContents));
+        when(basketContentsRepository.findAllByBasketId(anyInt())).thenReturn(basketContents);
         when(userRepository.findByEmail(any())).thenReturn(user);
         when(productRepository.save(any())).thenReturn(product);
-        when(orderMapper.map(any(Order.class))).thenReturn(orderDto);
+//        when(orderMapper.map(any(Order.class))).thenReturn(orderDto);
         var result = orderService.createOrder(createOrderDto, "ivanivanovic22@gmail.com");
         verify(basketContentsRepository, times(1)).findAllByBasketId(anyInt());
         verify(userRepository, times(1)).findByEmail(any());
-        verify(productRepository, times(1)).save(any());
-        verify(orderMapper, times(1)).map(any(Order.class));
+        verify(productRepository, times(2)).save(any());
+//        verify(orderMapper, times(1)).map(any(Order.class));
         assertEquals("Milutina Milankovica 123", result.getAddress());
-        assertEquals(product.getStockAmount(), product.getStockAmount() - basketContents.getQuantity());
+        assertEquals(product.getStockAmount(), product.getStockAmount());
+        assertEquals(basket.getBasketContents().size(), result.getOrderContentsDtos().size());
+        assertEquals(basket.getBasketContents().get(0).getProduct().getName(), result.getOrderContentsDtos().get(0).getProductName());
+        assertEquals(basket.getBasketContents().get(1).getProduct().getName(), result.getOrderContentsDtos().get(1).getProductName());
+        assertEquals(basket.getBasketContents().get(0).getQuantity(), result.getOrderContentsDtos().get(0).getProductQuantity());
+        assertEquals(basket.getBasketContents().get(1).getQuantity(), result.getOrderContentsDtos().get(1).getProductQuantity());
+     /*
+        // zato sto gore imam productRepo.save(product) dakle on je prosao vec kroz kod i nema potrebe da actual stavljam stock - quantity
+        assertEquals(basket.getBasketContents().get(0).getProduct().getName(), result.getOrderContentsDtos().get(0).getProductName());
+       *//* assertEquals(basketContents.getQuantity(), result.getOrderContentsDtos().get(0).getProductQuantity());
+        assertEquals(basketContents.getProduct().getPrice(), result.getOrderContentsDtos().get(0).getPrice());*//*
+        for (var i:basket.getBasketContents()) {
+            Iterator<BasketContents> iterator = basketContents.listIterator();
+            while(iterator.hasNext()){
+                iterator.next();
+                assertEquals(basket.getBasketContents().get(0).getProduct().getPrice(), result.getOrderContentsDtos().get(0).getPrice());
+            }
+        }*/
     }
 }
 
 
 // treba da proverim da li u mom orderu, u basketu sa odredjenim baskedId-jem, imam vise produkata i koji su i sve
+/*
+* 2 potencijalna nacina
+* izi way - napravim produkt1, 2, 3 -> ali kako onda da instanciram basketContents, on je jedan jedini
+*
+* da idem preko liste, kako bi to izgledalo
+*
+*
+*
+* */

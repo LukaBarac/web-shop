@@ -92,26 +92,27 @@ public class BasketServiceImpl implements BasketService {
     @Override
     public BasketDto removeProductFromBasket(int basketId, int productId, BasketContentsDto basketContentsDto) {
 
-        var product = productRepository.findById(productId)
-                .orElseThrow(() -> new NotFoundException("no product with that id found"));
-
+       /* var product = productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("no product with that id found"));*/
+        var basket = basketRepository.findById(basketId)
+                .orElseThrow(() -> new NotFoundException("basket not found"));
         var basketContent = basketContentsRepository.findByBasketIdAndProductId(basketId, productId)
                 .orElseThrow(() -> new NotFoundException("basket does not exist"));
 
-        var removeQuantity = basketContentsDto.getQuantity();
-        var currentQuantity = basketContent.getQuantity();
-        if (removeQuantity < currentQuantity){
-            currentQuantity = currentQuantity - removeQuantity;
-            basketContent.setQuantity(currentQuantity);
-            basketContentsRepository.save(basketContent);
-        } else {
-            basketContentsRepository.deleteByProductIdAndBasketId(productId, basketId); // vidi repo
-        }
-
-        var basket = basketRepository.findById(basketId)
-                .orElseThrow(() -> new NotFoundException("basket not found"));
+        checkBasketContentQuantityAndUpdate(basketContent, basketContentsDto);
 
         return basketMapper.map(basket);
+    }
+
+    public void checkBasketContentQuantityAndUpdate(BasketContents basketContent, BasketContentsDto basketContentsDto){
+        var removeQuantity = basketContentsDto.getQuantity();
+        var currentQuantity = basketContent.getQuantity();
+        if (removeQuantity >= currentQuantity){
+            basketContentsRepository.deleteByProductIdAndBasketId(basketContent.getProduct().getId(), basketContent.getBasket().getId());
+        } else {
+            basketContent.setQuantity(currentQuantity - removeQuantity);
+            basketContentsRepository.save(basketContent);
+        }
     }
 
     @Override
@@ -158,3 +159,29 @@ public class BasketServiceImpl implements BasketService {
 
 // var basketDtoResult = basketMapper.map(basketEntity);
 // return basketDtoResult;
+
+   /* @Override //originalna netaknuta
+    public BasketDto removeProductFromBasket(int basketId, int productId, BasketContentsDto basketContentsDto) {
+
+      *//*  var product = productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("no product with that id found"));*//*
+
+        var basketContent = basketContentsRepository.findByBasketIdAndProductId(basketId, productId)
+                .orElseThrow(() -> new NotFoundException("basket does not exist"));
+
+        var removeQuantity = basketContentsDto.getQuantity();
+        var currentQuantity = basketContent.getQuantity();
+        if (removeQuantity < currentQuantity){
+            currentQuantity = currentQuantity - removeQuantity;
+            basketContent.setQuantity(currentQuantity);
+            basketContentsRepository.save(basketContent);
+        } else {
+            basketContentsRepository.deleteByProductIdAndBasketId(productId, basketId); // vidi repo
+        }
+
+        var basket = basketRepository.findById(basketId)
+                .orElseThrow(() -> new NotFoundException("basket not found"));
+
+        return basketMapper.map(basket);
+    }
+*/

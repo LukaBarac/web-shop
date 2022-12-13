@@ -7,25 +7,26 @@ import com.example.ecommerce_web_shop.dto.OrderDto;
 import com.example.ecommerce_web_shop.model.BasketContents;
 import com.example.ecommerce_web_shop.model.Order;
 import com.example.ecommerce_web_shop.model.OrderContents;
+import lombok.experimental.UtilityClass;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-@Component
+@UtilityClass
 public class OrderMapper {
 
-   public OrderDto map(Order order){
+   public static OrderDto map(Order order){
        OrderDto orderDto = new OrderDto();
        orderDto.setAddress(order.getAddress());
        orderDto.setDateCreated(order.getDateCreated());
        orderDto.setCity(order.getCity());
        orderDto.setTotalPrice(order.getTotalPrice());
-       orderDto.setOrderContentsDtos(order.getOrderContents().stream().map(this::map).collect(Collectors.toList()));
+       orderDto.setOrderContentsDtos(order.getOrderContents().stream().map(OrderMapper::map).collect(Collectors.toList()));
 
        return orderDto;
    }
 
-   public OrderContentsDto map(OrderContents orderContents){
+   public static OrderContentsDto map(OrderContents orderContents){
        return new OrderContentsDto(orderContents.getName(),
                orderContents.getQuantity(),
                orderContents.getPrice());

@@ -5,7 +5,6 @@ import com.example.ecommerce_web_shop.dto.CreateUserDto;
 import com.example.ecommerce_web_shop.dto.UserDto;
 import com.example.ecommerce_web_shop.exception.NotFoundException;
 import com.example.ecommerce_web_shop.mapper.UserMapper;
-import com.example.ecommerce_web_shop.model.User;
 import com.example.ecommerce_web_shop.repositories.RoleRepository;
 import com.example.ecommerce_web_shop.repositories.UserRepository;
 import com.example.ecommerce_web_shop.service.UserService;
@@ -13,7 +12,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -106,58 +104,4 @@ public class UserServiceImpl implements UserService {
         authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
-
-    /*public void refreshToken(HttpServletRequest request, HttpServletResponse response, User user, int id){
-        String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            try {
-                String token = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-                JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(token);
-                String username = decodedJWT.getSubject();
-                String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-
-                String access_token = JWT.create()
-                        .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 5000*//*60 * 60 * 1000*//*))
-                        .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                        .sign(algorithm);
-
-                String refresh_token = JWT.create()     // ne trebaju role
-                        .withSubject(user.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 4320 * 60 * 1000))
-                        .withIssuer(request.getRequestURL().toString())
-                        .sign(algorithm);
-
-       *//* response.setHeader("access_token", access_token);
-        response.setHeader("refresh_token", refresh_token);*//*
-
-                Map<String, String> tokens = new HashMap<>();
-                tokens.put("access_token", access_token);
-                tokens.put("refresh_token", refresh_token);
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-            } catch (Exception exception) {
-                response.setHeader("error", exception.getMessage());
-                response.setStatus(FORBIDDEN.value());
-                Map<String, String> error = new HashMap<>();
-                error.put("error_message", exception.getMessage());
-                response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), error);
-            }
-
-        } else {
-            throw new RuntimeException("Refresh token is missing");
-        }
-    }*/
 }
-
-/* @Override
-    public UserDto createUser(UserDto userDto) {
-        var savedEntity = userRepository.save(userMapper.map(userDto));
-        return userMapper.map(savedEntity);
-
-        STARI CREATE PRE SECURITY
-    }*/

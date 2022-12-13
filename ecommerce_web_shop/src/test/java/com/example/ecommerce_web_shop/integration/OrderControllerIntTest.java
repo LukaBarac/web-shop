@@ -12,14 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@Sql(scripts = {"classpath:data.sql"}, executionPhase = BEFORE_TEST_METHOD)
 //@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OrderControllerIntTest {
 
@@ -44,7 +48,7 @@ public class OrderControllerIntTest {
     }
 
     @Test
-//     @WithUserDetails("ivanivanovic231@hotmail.com")
+    @WithUserDetails(value = "ivanivanovic231@hotmail.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void shouldCreateOrder() throws Exception {
 
         System.out.println("ovdeeeeee " + userRepository.findAll());

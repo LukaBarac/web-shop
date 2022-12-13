@@ -34,4 +34,12 @@ public class OrderContents {
     private String name;
     private double price;
     private int quantity;
+
+    public OrderContents(Order order, Product product, String name, double price, int quantity) {
+        this.order = order;
+        this.product = product;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
 }
