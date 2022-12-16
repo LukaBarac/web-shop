@@ -11,10 +11,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class BasketContentsPK implements Serializable {
 
-
     private int basketId;
     private int productId;
-
-
-
 }

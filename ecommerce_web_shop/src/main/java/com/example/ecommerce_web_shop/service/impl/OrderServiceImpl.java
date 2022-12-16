@@ -26,13 +26,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
-
     @Autowired
     private BasketContentsRepository basketContentsRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private ProductRepository productRepository;
 
@@ -55,7 +52,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDto createOrder(CreateOrderDto createOrderDto, String email) {
-//potencijalni bag - ako nemam dovoljno instock za produkt 2, metoda ce permanentno povuci zeljeni quantity i ukloniti stock za produkt 1, pa onda prijaviti error kad naidje na produkt 2, bug or feature?
         var basketContents = basketContentsRepository.findAllByBasketId(createOrderDto.basketId());
         var user = userRepository.findByEmail(email);
         var totalPrice = 0.0;
@@ -101,48 +97,4 @@ public class OrderServiceImpl implements OrderService {
             throw new BadRequestException("There is not a sufficient amount of product in stock!");
         }
     }
-
 }
-
-//ORIGINALNA PRE REFACTORINGA
-    /*
-    *    @Override
-    public OrderDto createOrder(CreateOrderDto createOrderDto, String email) {
-
-        var basketContents = basketContentsRepository.findAllByBasketId(createOrderDto.basketId());
-        var user = userRepository.findByEmail(email);
-        var totalPrice = 0.0;
-
-        Order order = new Order(createOrderDto.address(), createOrderDto.city(), totalPrice, user);
-        var sum = 0.0;
-        List<OrderContents> orderContentsList = new ArrayList<>();
-        for (var basketContent : basketContents) {
-            OrderContents orderContents = new OrderContents();
-
-            var stockAmount = basketContent.getProduct().getStockAmount();
-            var quantity = basketContent.getQuantity();
-            var product = basketContent.getProduct();
-            if (stockAmount >= quantity) {
-                orderContents.setQuantity(quantity);
-                product.setStockAmount(stockAmount - quantity);
-                productRepository.save(product);
-            } else {
-                throw new BadRequestException("There is not a sufficient amount of product in stock!");
-            }
-            orderContents.setProduct(product);
-            orderContents.setPrice(product.getPrice());
-            orderContents.setName(product.getName());
-            sum = sum + (orderContents.getPrice() * orderContents.getQuantity());
-            orderContents.setOrder(order);
-            orderContentsList.add(orderContents);
-        }
-
-        order.setTotalPrice(sum);
-        order.setOrderContents(orderContentsList);
-        orderRepository.save(order);
-
-        basketService.emptyBasket(createOrderDto.basketId());
-
-        return OrderMapper.map(order);
-    }*/
-

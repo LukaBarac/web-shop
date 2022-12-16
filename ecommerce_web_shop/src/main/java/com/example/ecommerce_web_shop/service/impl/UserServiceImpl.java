@@ -8,7 +8,6 @@ import com.example.ecommerce_web_shop.mapper.UserMapper;
 import com.example.ecommerce_web_shop.repositories.RoleRepository;
 import com.example.ecommerce_web_shop.repositories.UserRepository;
 import com.example.ecommerce_web_shop.service.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,13 +24,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private UserMapper userMapper;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -41,19 +37,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findUser(int id) {       // GET jednog usera
+    public UserDto getUserById(int id) {
         var user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user does not exist"));
         return userMapper.map(user);
     }
 
     @Override
     public UserDto createUser(CreateUserDto createUserDto) {
-
         var user = userMapper.map(createUserDto);
         var role = roleRepository.findByName(createUserDto.roleName())
-                .orElseThrow(() -> new NotFoundException("Could not find user with that role name")); // mora optional u Role repo !!!
+                .orElseThrow(() -> new NotFoundException("Could not find user with that role name"));
         user.setRole(role);
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // trebalo bi da radi?
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return userMapper.map(user);
     }
@@ -61,14 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(int id, UserDto userDto) {
         var updatedUser = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user does not exist!"));
-
-        /*updatedUser.setFirstName(userDto.getFirstName()); // problem sa ovim je, ako posaljem null setovace null, valjda?
-        updatedUser.setLastName(userDto.getLastName());
-        updatedUser.setEmail(userDto.getEmail());  // da li moze da kreira/updatuje novi basket kako hoce? Ne.*/
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setSkipNullEnabled(true);
-        mapper.map(userDto, updatedUser);   // moj mapper pravi movi entitet u bazi, sa ostalim vrednostima null, pored ove tri
-        /*updatedUser = userMapper.mapUpdatedUser(userDto);*/
+        updatedUser = userMapper.mapUpdatedUser(userDto, updatedUser); // da li da stoji void mapper ili User, tj da li da ostavim promenljivu ovde ili ne
         var savedEntity = userRepository.save(updatedUser);
         return userMapper.map(savedEntity);
     }
@@ -80,26 +68,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addRoleToUser(int userId, int roleId) {     // redundant al neka ga
-
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("stagod"));
-
         var role = roleRepository.findById(roleId)
                 .orElseThrow(() -> new NotFoundException("stagod"));
-
         user.setRole(role);
         userRepository.save(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException { // nemam username pa cu dati da bude email
-
         var user = userRepository.findByEmail(email);
-
         if (user == null){
             throw new UsernameNotFoundException("User not found in the database");
         }
-
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);

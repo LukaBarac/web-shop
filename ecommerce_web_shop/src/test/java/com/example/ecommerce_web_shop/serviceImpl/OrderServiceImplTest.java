@@ -106,15 +106,3 @@ public class OrderServiceImplTest {
         }*/
     }
 }
-
-
-// treba da proverim da li u mom orderu, u basketu sa odredjenim baskedId-jem, imam vise produkata i koji su i sve
-/*
-* 2 potencijalna nacina
-* izi way - napravim produkt1, 2, 3 -> ali kako onda da instanciram basketContents, on je jedan jedini
-*
-* da idem preko liste, kako bi to izgledalo
-*
-*
-*
-* */

@@ -3,7 +3,6 @@ package com.example.ecommerce_web_shop.integration;
 import com.example.ecommerce_web_shop.dto.CreateUserDto;
 import com.example.ecommerce_web_shop.dto.RoleDto;
 import com.example.ecommerce_web_shop.dto.UserDto;
-import com.example.ecommerce_web_shop.model.User;
 import com.example.ecommerce_web_shop.repositories.RoleRepository;
 import com.example.ecommerce_web_shop.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,11 +54,8 @@ public class UserControllerIntTest {
                 "123");*/
         createUserDto = new CreateUserDto(FIRST_NAME, "Ivanovic", EMAIL,
                 "123", "ROLE_MANAGER");
-        var roleDto = new RoleDto("ROLE_MANAGER"); // koristi se samo u setup metodi, ne treba kao global var
+        var roleDto = new RoleDto("ROLE_MANAGER");
         userDto = new UserDto("Ivan", "Ivanovic", "ivanivanovic22@gmail.com", roleDto);
-
-
-        // ovo je bilo u testu, da li smo to u brzini zaboravili, ili je imalo neku poentu da ne bude u setupu?
     }
 
     @Test

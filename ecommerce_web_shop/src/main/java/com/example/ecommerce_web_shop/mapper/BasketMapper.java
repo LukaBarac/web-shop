@@ -26,8 +26,6 @@ public class BasketMapper {
     public BasketContentsDto map(BasketContents basketContents){
         return new BasketContentsDto(basketContents.getBasket().getId(),
                 basketContents.getProduct().getId(),
-//                 basketContents.getProduct().getName(),
-//                 basketContents.getProduct().getPrice(),
                 basketContents.getQuantity());
     }
 
@@ -35,17 +33,4 @@ public class BasketMapper {
         return new Basket(user);
     }
     // ako mapper pretvara dto u model i obrnuto, zasto onda ovo postoji?
-
-/*
-    public List<BasketContentsDto> map1(List<Basket> baskets){
-        return new BasketContentsDto(baskets.get());
-    }
-*/
-
-/*
-    public BasketDto radi(Basket basket){
-        return new Basket();
-    }
-*/
-
 }

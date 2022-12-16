@@ -10,7 +10,7 @@ public interface UserService extends UserDetailsService {
 
     List<UserDto> getUsers();
 
-    UserDto findUser(int id);
+    UserDto getUserById(int id);
 
     UserDto createUser(CreateUserDto createUserDto);
 

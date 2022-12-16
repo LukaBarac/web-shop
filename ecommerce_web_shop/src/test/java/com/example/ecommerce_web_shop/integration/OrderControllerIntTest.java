@@ -17,13 +17,14 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.transaction.Transactional;
+
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@Sql(scripts = {"classpath:data.sql"}, executionPhase = BEFORE_TEST_METHOD)
 //@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OrderControllerIntTest {
 
@@ -48,10 +49,11 @@ public class OrderControllerIntTest {
     }
 
     @Test
+    @Sql(scripts = {"classpath:data.sql"}, executionPhase = BEFORE_TEST_METHOD)
     @WithUserDetails(value = "ivanivanovic231@hotmail.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void shouldCreateOrder() throws Exception {
 
-        System.out.println("ovdeeeeee " + userRepository.findAll());
+        System.out.println("OVDEEEEEEEEEEEEEEEEEEEE " + userRepository.findAll());
 
         var content = objectMapper.writeValueAsString(createOrderDto);
 

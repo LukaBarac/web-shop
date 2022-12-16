@@ -33,6 +33,4 @@ public class BasketContents {
         this.product = product;
         this.quantity = quantity;
     }
-
-
 }

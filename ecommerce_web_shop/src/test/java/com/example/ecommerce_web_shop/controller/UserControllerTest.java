@@ -74,7 +74,7 @@ public class UserControllerTest {
 
     @Test
     void shouldGetUserById() throws Exception {
-        when(userService.findUser(1)).thenReturn(userDto);
+        when(userService.getUserById(1)).thenReturn(userDto);
         var content = objectMapper.writeValueAsString(userDto);
         mockMvc.perform(
                         get("/users/{id}", 1)
@@ -89,7 +89,7 @@ public class UserControllerTest {
 
     @Test
     void shouldThrowNotFoundExceptionWhenGetUserById() throws Exception {
-        when(userService.findUser(anyInt())).thenThrow(NotFoundException.class);
+        when(userService.getUserById(anyInt())).thenThrow(NotFoundException.class);
         var content = objectMapper.writeValueAsString(userDto);
         mockMvc.perform(
                 get("/users/{id}", 1)

@@ -24,11 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "`user`")
-/*@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)*/
+@Table(name = "users")
 @ToString
 public class User {
 
@@ -38,8 +34,6 @@ public class User {
 
     private String firstName;
     private String lastName;
-
-
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -54,7 +48,7 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private List<Order> orders;
 
     public User(String firstName, String lastName, String email){
@@ -76,13 +70,4 @@ public class User {
         this.lastName = lastName;
         this.email = email;
     }
-
-  /*  public User(int id, String firstName, String lastName, String email, String password, Role role) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }*/ //probao da cuvam usera u h2 in memory bazi za integration test
 }

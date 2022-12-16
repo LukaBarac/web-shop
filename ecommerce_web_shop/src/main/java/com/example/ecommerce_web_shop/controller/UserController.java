@@ -26,7 +26,7 @@ public class UserController {
 
     @GetMapping("{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable int id){
-        return ResponseEntity.ok(userService.findUser(id));
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PostMapping("")
@@ -44,7 +44,7 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    @PatchMapping("{userId}/{roleId}")
+    @PatchMapping("{userId}/{roleId}")   //zasto nemam response entity, da li sam to zeleo tako?
     public void addRoleToUser(@PathVariable int userId, @PathVariable int roleId){userService.addRoleToUser(userId, roleId);}
 
 }

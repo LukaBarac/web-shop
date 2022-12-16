@@ -11,7 +11,6 @@ import lombok.ToString;
 @AllArgsConstructor
 public class OrderContentsDto {
 
-
     private String productName;
     private int productQuantity;
     private double price;

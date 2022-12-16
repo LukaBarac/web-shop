@@ -16,7 +16,7 @@ public interface BasketService {
 
     BasketDto findBasket(int basketId);
 
-    BasketDto removeProductFromBasket(int basketId, int productId, BasketContentsDto basketContentsDto);
+    BasketContentsDto removeProductFromBasket(/*int basketId, int productId, */BasketContentsDto basketContentsDto);
 
     BasketDto emptyBasket(int basketId);
 }

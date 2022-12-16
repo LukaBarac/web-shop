@@ -21,44 +21,29 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "basket")
-/*@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)*/
+
 public class Basket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne(/*fetch = FetchType.LAZY*/)
-  //  @JsonIgnore
+    @OneToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "basket"/*, fetch = FetchType.LAZY*/)
+    @OneToMany(mappedBy = "basket")
     private List<BasketContents> basketContents;
 
     public Basket(User user){
         this.user = user;
     }
 
-    public Basket(List<BasketContents> basketContents) {
-        this.basketContents = basketContents;
-    }
-
     @Override
     public String toString() {
         return "Basket{" +
-                "id=" + id + /*"basketContents=" + basketContents +*/ "}";       //izbacio sam basketcontents, nije radilo besa tim (isto kao sto smo brisali usera juce)
+                "id=" + id + "}";
     }
-                                        // zasto na user u debug izbacuje error kad ubacim basketcontents
-    /*@Override
-    public String toString() {
-        return "Basket{" +
-                "id=" + id +
-                '}';
-    }*/
 
     public Basket(User user, List<BasketContents> basketContents) {
         this.user = user;

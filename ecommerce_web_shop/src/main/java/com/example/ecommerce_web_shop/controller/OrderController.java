@@ -37,13 +37,8 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getFilteredOrders(userId, pageable, from, to));
     }
 
-
     @PostMapping("")
     public ResponseEntity<OrderDto> createOrder(@RequestBody CreateOrderDto createOrderDto){
         return new ResponseEntity<>(orderService.createOrder(createOrderDto, SecurityContextHolder.getContext().getAuthentication().getName()), HttpStatus.CREATED);
     }
-
-
-
-
 }

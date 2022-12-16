@@ -27,16 +27,12 @@ public class BasketServiceImpl implements BasketService {
 
     @Autowired
     private BasketRepository basketRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private BasketContentsRepository basketContentsRepository;
-
     @Autowired
     private BasketMapper basketMapper;
 
@@ -61,24 +57,13 @@ public class BasketServiceImpl implements BasketService {
 
 //done
         var productEntity = findProductById(basketContentsDto.getProductId());
-
 //done
         var basketEntity = findBasketById(basketContentsDto.getBasketId());
-
 //done
         var basketContent = createBasketContentEntity(basketEntity, productEntity, basketContentsDto);
 //done
-       // basketEntity.getBasketContents().size();
-
         addBasketContentsToBasket(basketEntity, productEntity, basketContent);
-
 //done
-        /*System.out.println("2 content size " + basketEntity.getBasketContents().size());*/
-
-        //log.info(basketEntity.getBasketContents().toString());
-
-
-        //log.info(basketDtoResult.getBasketContents().toString());
         return returnBasketDtoResult(basketEntity);
     }
 
@@ -90,18 +75,18 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-    public BasketDto removeProductFromBasket(int basketId, int productId, BasketContentsDto basketContentsDto) {
+    public BasketContentsDto removeProductFromBasket(/*int basketId, int productId, */BasketContentsDto basketContentsDto) {
 
        /* var product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException("no product with that id found"));*/
-        var basket = basketRepository.findById(basketId)
-                .orElseThrow(() -> new NotFoundException("basket not found"));
-        var basketContent = basketContentsRepository.findByBasketIdAndProductId(basketId, productId)
+       /* var basket = basketRepository.findById(basketId)
+                .orElseThrow(() -> new NotFoundException("basket not found"));*/
+        var basketContent = basketContentsRepository.findByBasketIdAndProductId(basketContentsDto.getBasketId(), basketContentsDto.getProductId())
                 .orElseThrow(() -> new NotFoundException("basket does not exist"));
 
         checkBasketContentQuantityAndUpdate(basketContent, basketContentsDto);
 
-        return basketMapper.map(basket);
+        return basketMapper.map(basketContent);
     }
 
     public void checkBasketContentQuantityAndUpdate(BasketContents basketContent, BasketContentsDto basketContentsDto){
@@ -116,7 +101,7 @@ public class BasketServiceImpl implements BasketService {
     }
 
     @Override
-//     @Transactional   nalazi se u interfejsu
+//     @Transactional se nalazi u interfejsu
     public BasketDto emptyBasket(int basketId) {
 
         basketContentsRepository.deleteByBasketId(basketId);    //ovo deleteByBasketId je u sustini deleteById
@@ -157,8 +142,6 @@ public class BasketServiceImpl implements BasketService {
     }
 }
 
-// var basketDtoResult = basketMapper.map(basketEntity);
-// return basketDtoResult;
 
    /* @Override //originalna netaknuta
     public BasketDto removeProductFromBasket(int basketId, int productId, BasketContentsDto basketContentsDto) {

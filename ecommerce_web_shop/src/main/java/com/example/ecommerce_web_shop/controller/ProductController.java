@@ -48,15 +48,12 @@ public class ProductController {
         return new ResponseEntity<>(productService.createProduct(productDto), HttpStatus.CREATED);
     }
 
-    //3. removeProduct
-
     @DeleteMapping("{id}")
     public void deleteProduct(@PathVariable(name = "id") int productId){
         productService.deleteProduct(productId);
     }
 
-
-    //4. ubaci vise razlicitih produkta odjednom
+    //4. ubaci vise razlicitih produkta odjednom  NIJE URADJENO
     public ResponseEntity<List<ProductDto>> createProduct(@RequestBody List<ProductDto> products){
             return new ResponseEntity<>(productService.addProducts(products), HttpStatus.CREATED);
     }

@@ -12,13 +12,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleRepository roleRepository;
-
     @Autowired
     private RoleMapper roleMapper;
 
     @Override
     public RoleDto saveRole(RoleDto roleDto) {
-
         var role = roleRepository.save(roleMapper.map(roleDto));
         return roleMapper.map(role);
     }

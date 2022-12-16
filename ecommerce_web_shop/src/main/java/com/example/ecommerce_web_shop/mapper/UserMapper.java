@@ -31,10 +31,27 @@ public class UserMapper {
                 createUserDto.password()); // ja ovde samo mapiram u Usera, a roleName cu da hvatam iz roleRepository u servisu
     }
 
-  /*  public void mapUpdatedUser(UserDto userDto, User user){
-        if(userDto.getFirstName() != null ) {
+    public User mapUpdatedUser(UserDto userDto, User user){     // ako dodeljujem
+                                                                // promenljivoj u servisu onda mora tip User
+/*
+        if(userDto.getFirstName() != null &&
+           userDto.getLastName() != null &&
+            userDto.getEmail() != null) {
+            user.setFirstName(userDto.getFirstName());
+            user.setLastName(userDto.getLastName());    //ovo ima smisla da je PUT
+            user.setEmail(userDto.getEmail());
+        }*/
+
+        if(userDto.getFirstName() != null) {
             user.setFirstName(userDto.getFirstName());
         }
-        if()
-    }*/
+        if(userDto.getLastName() != null) {
+            user.setLastName(userDto.getLastName());  //vidi da li da ostane PUT ili da stavim PATCH
+        }
+        if(userDto.getEmail() != null) {
+            user.setEmail(userDto.getEmail());
+        }
+
+        return user;
+    }
 }

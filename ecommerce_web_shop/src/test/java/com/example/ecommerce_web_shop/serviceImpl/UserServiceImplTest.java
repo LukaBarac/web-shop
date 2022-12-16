@@ -21,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -106,7 +105,7 @@ public class UserServiceImplTest {
     void shouldGetUserById(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.of(user));
         when(userMapper.map(user)).thenReturn(userDto);
-        var result = userService.findUser(anyInt());
+        var result = userService.getUserById(anyInt());
         verify(userRepository, times(1)).findById(anyInt());
         verify(userMapper, times(1)).map(user);
         assertEquals("Ivan", result.getFirstName());
@@ -116,7 +115,7 @@ public class UserServiceImplTest {
     @Test
     void shouldThrowNoUserFoundWhenFindUserById(){
         when(userRepository.findById(anyInt())).thenReturn(Optional.empty());
-        assertThrows(NotFoundException.class, () -> userService.findUser(anyInt()));
+        assertThrows(NotFoundException.class, () -> userService.getUserById(anyInt()));
         verify(userRepository, times(1)).findById(anyInt());
     }
 

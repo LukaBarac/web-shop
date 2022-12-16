@@ -9,12 +9,10 @@ import java.util.Optional;
 
 public interface BasketContentsRepository extends JpaRepository<BasketContents, Integer> {
 
-
-
     Optional<BasketContents> findByBasketIdAndProductId(int basketId, int productId); //mora optional zbog oreslsethrow
 
     List<BasketContents> findAllByBasketId(int basketId);
-    //uzmi da procitas o transactional
+
     @Transactional
     void deleteByBasketId(int basketId);
 

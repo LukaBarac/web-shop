@@ -27,26 +27,19 @@ public class BasketController {
         return new ResponseEntity<>(basketService.createBasket(userId), HttpStatus.CREATED);
     }
 
-    //dodaj produkte u basket - gotovo
-
     @PutMapping("")
     public ResponseEntity<BasketDto> addProductToBasket(@RequestBody BasketContentsDto basketContentsDto){
         return ResponseEntity.ok(basketService.addContentsToBasket(basketContentsDto));
     }
-
-    //1. izbaci produkte iz basketa -> moze void sta god
-
-    //2. isprazni basket -> ResponseEntity<BasketDto>
-
 
     @GetMapping("ceobasket/{basketId}")
     public ResponseEntity<BasketDto> getBasket(@PathVariable int basketId) {
         return ResponseEntity.ok(basketService.findBasket(basketId));
     }
 
-    @PutMapping("{basketId}/{productId}")
-    public ResponseEntity<BasketDto> removeProductFromBasket(@PathVariable int basketId, @PathVariable int productId,@RequestBody BasketContentsDto basketContentsDto){
-        return ResponseEntity.ok(basketService.removeProductFromBasket(basketId, productId, basketContentsDto));
+    @PutMapping("removeProduct")
+    public ResponseEntity<BasketContentsDto> removeProductFromBasket(@RequestBody BasketContentsDto basketContentsDto){
+        return ResponseEntity.ok(basketService.removeProductFromBasket(/*basketId, productId, */basketContentsDto));
     }
 
     @PutMapping("ceobasket/{basketId}")

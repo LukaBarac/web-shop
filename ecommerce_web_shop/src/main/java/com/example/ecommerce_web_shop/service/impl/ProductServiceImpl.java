@@ -21,13 +21,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private ProductMapper productMapper;
-
     @Autowired
     private CityMapper cityMapper;
-
     @Autowired
     private ReportMapper reportMapper;
 

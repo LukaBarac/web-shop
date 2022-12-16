@@ -23,14 +23,14 @@ public class Order {
     private int id;
     private String address;
     private String city;
-    @Column(nullable = true)
+    @Column()
     private double totalPrice;
 
     @CreationTimestamp
     private LocalDate dateCreated;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderContents> orderContents; // po logici treba composite key // vidi screenshot scheme baze
+    private List<OrderContents> orderContents;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

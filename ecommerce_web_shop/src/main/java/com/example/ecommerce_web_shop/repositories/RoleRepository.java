@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     @Transactional
-    Optional<Role> findByName(String name); // mora zbog orElseThrow!!!!!!!
+    Optional<Role> findByName(String name);
 }
