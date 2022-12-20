@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (id int,
                                  last_name varchar(255),
                                  password varchar(255),
                                  role_id int
+   /* CONSTRAINT FK_role_user FOREIGN KEY (role_id) REFERENCES dbo.[roles](id)*/
 );
 
 CREATE TABLE IF NOT EXISTS product (id int,
@@ -47,7 +48,8 @@ INSERT INTO users VALUES (1, 'ivanivanovic231@hotmail.com', 'Ivan', 'Ivanovic', 
 -- INSERT INTO users VALUES (3, 'testproba@hotmail.com', 'Ivan', 'Ivanovic', '12', 1);
 
 INSERT INTO product (id, product_name, price, stock_amount, date_added) VALUES (1, 'Mobile Phone',  100.0, 5, CURDATE());
-INSERT INTO product (id, product_name, price, stock_amount, date_added) VALUES (2, 'TV',  260.0, 7, CURDATE());
+INSERT INTO product (id, product_name, price, stock_amount, date_added) VALUES (2, 'TV',  260.0, 1, CURDATE());
+                                                                        /*promenio ovo da trigeruje exception*/
 
 INSERT INTO basket VALUES (1, 1);
 

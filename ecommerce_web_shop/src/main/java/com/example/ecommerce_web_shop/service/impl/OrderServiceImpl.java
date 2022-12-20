@@ -9,6 +9,7 @@ import com.example.ecommerce_web_shop.model.Order;
 import com.example.ecommerce_web_shop.model.OrderContents;
 import com.example.ecommerce_web_shop.model.Product;
 import com.example.ecommerce_web_shop.repositories.*;
+import com.example.ecommerce_web_shop.service.BasketService;
 import com.example.ecommerce_web_shop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,8 @@ public class OrderServiceImpl implements OrderService {
     private UserRepository userRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private BasketService basketService;
 
     @Override
     public Page<OrderDto> getAllOrders(int userId, Pageable pageable) {
@@ -63,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderContents(orderContentsList);
         orderRepository.save(order);
 
-//        basketService.emptyBasket(createOrderDto.basketId()); da ne popunjavam svaki put
+        basketService.emptyBasket(createOrderDto.basketId());
 
         return OrderMapper.map(order);
     }

@@ -34,7 +34,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             nativeQuery = true)
     List<CityReport> findCitiesInfo(int productId);
 
-    @Query(value = "SELECT p.name AS productName, p.price AS productPrice " +
+    @Query(value = "SELECT p.product_name AS productName, p.price AS productPrice " +
             "FROM product p " +
             "WHERE p.id = :productId",
             nativeQuery = true)
