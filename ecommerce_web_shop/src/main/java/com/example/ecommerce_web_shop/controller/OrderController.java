@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -27,14 +28,16 @@ public class OrderController {
 
     @GetMapping("{userId}")
     public ResponseEntity<Page<OrderDto>> getAllOrders(@PathVariable int userId, Pageable pageable){
-        return ResponseEntity.ok(orderService.getAllOrders(userId, pageable));
+        var orders = orderService.getAllOrders(userId, pageable);
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("dateFiltered/{userId}")
     public ResponseEntity<Page<OrderDto>> getFilteredOrders(@PathVariable int userId, Pageable pageable,
-                                                            @RequestParam(value = "from", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date from,
-                                                            @RequestParam(value = "to", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date to){
-        return ResponseEntity.ok(orderService.getFilteredOrders(userId, pageable, from, to));
+                                                            @RequestParam(value = "from", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDate from,
+                                                            @RequestParam(value = "to", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDate to){
+        var orders = orderService.getFilteredOrders(userId, pageable, from, to);
+        return ResponseEntity.ok(orders);
     }
 
     @PostMapping("")

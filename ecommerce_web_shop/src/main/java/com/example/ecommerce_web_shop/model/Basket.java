@@ -29,8 +29,8 @@ public class Basket {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "basket", fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
+    @OneToMany(mappedBy = "basket"/*, fetch = FetchType.EAGER*/)
+//    @Fetch(value = FetchMode.SUBSELECT)
 //    @LazyCollection(LazyCollectionOption.FALSE)
     private List<BasketContents> basketContents;
 

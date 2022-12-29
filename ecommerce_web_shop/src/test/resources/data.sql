@@ -43,15 +43,24 @@ CREATE TABLE IF NOT EXISTS order_contents (id int,
 
 
 INSERT INTO users VALUES (1, 'ivanivanovic231@hotmail.com', 'Ivan', 'Ivanovic', '123', 1);
--- INSERT INTO users VALUES (2, 'bobanrajovic@hotmail.com', 'Ivan', 'Ivanovic', '12345', 1);
--- INSERT INTO users VALUES (3, 'testproba@hotmail.com', 'Ivan', 'Ivanovic', '12', 1);
+
+-- za exception
+INSERT INTO users VALUES (2, 'bobanrajovic@hotmail.com', 'Boban', 'Rajovic', '12345', 1);
 
 INSERT INTO product (id, product_name, price, stock_amount, date_added) VALUES (1, 'Mobile Phone',  100.0, 5, CURDATE());
 INSERT INTO product (id, product_name, price, stock_amount, date_added) VALUES (2, 'TV',  260.0, 7, CURDATE());
+-- za exception
+INSERT INTO product (id, product_name, price, stock_amount, date_added) VALUES (3, 'Headphones',  10.0, 4, CURDATE());
+INSERT INTO product (id, product_name, price, stock_amount, date_added) VALUES (4, 'Mouse',  20.0, 9, CURDATE());
 
 INSERT INTO basket VALUES (1, 1);
 
--- INSERT INTO basket_contents VALUES (1, 1, 3);
+-- za exception
+INSERT INTO basket VALUES (2, 2);
+
 INSERT INTO basket_contents (basket_id, product_id, quantity) VALUES (1, 1, 3);
 INSERT INTO basket_contents (basket_id, product_id, quantity) VALUES (1, 2, 2);
--- INSERT INTO basket_contents VALUES (1, 2, 2);
+
+-- za exception
+INSERT INTO basket_contents (basket_id, product_id, quantity) VALUES (2, 3, 3);
+INSERT INTO basket_contents (basket_id, product_id, quantity) VALUES (2, 4, 10);

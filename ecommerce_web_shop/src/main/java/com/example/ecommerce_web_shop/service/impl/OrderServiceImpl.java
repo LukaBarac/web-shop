@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,12 +39,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<OrderDto> getAllOrders(int userId, Pageable pageable) {
-        return orderRepository.findAllByUserIdOrderByDateCreatedDesc(userId, pageable).map(OrderMapper::map);
+        var orderPage = orderRepository.findAllByUserIdOrderByDateCreatedDesc(userId, pageable);
+        var orderDtoPage = orderPage.map(OrderMapper::map);
+        return orderDtoPage;
     }
 
     @Override
-    public Page<OrderDto> getFilteredOrders(int userId, Pageable pageable, Date from, Date to) {
-        return orderRepository.findAllByUserIdAndTimeFrame(userId, pageable, from, to).map(OrderMapper::map);
+    public Page<OrderDto> getFilteredOrders(int userId, Pageable pageable, LocalDate from, LocalDate to) {
+        var orderPage = orderRepository.findAllByUserIdAndTimeFrame(userId, pageable, from, to);
+        var orderDtoPage = orderPage.map(OrderMapper::map);
+        return orderDtoPage;
     }
 
     /*  @Override

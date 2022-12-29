@@ -41,4 +41,15 @@ public class Order {
         this.totalPrice = totalPrice;
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", totalPrice=" + totalPrice +
+                ", dateCreated=" + dateCreated +
+                '}';
+    }
 }
