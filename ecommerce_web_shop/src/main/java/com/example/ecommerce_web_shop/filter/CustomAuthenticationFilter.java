@@ -63,6 +63,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         tokens.put("access_token", access_token);
         tokens.put("refresh_token", refresh_token);
         response.setContentType(APPLICATION_JSON_VALUE);
+        for (var token: tokens.entrySet()){
+            System.out.println(token.getKey() + "\n" + token.getValue());
+        }
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 }

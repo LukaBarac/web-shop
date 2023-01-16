@@ -6,6 +6,9 @@ import com.example.ecommerce_web_shop.enums.ProductStockStatus;
 import com.example.ecommerce_web_shop.model.Product;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class ProductMapper {
 
@@ -29,5 +32,13 @@ public class ProductMapper {
 
     private ProductStockStatus checkStockStatus(Product product){
         return product.getStockAmount() == 0 ? ProductStockStatus.OUT_OF_STOCK : ProductStockStatus.IN_STOCK;
+    }
+
+    public List<Product> mapList(List<ProductDto> productDtos){
+        return productDtos.stream().map(productDto -> map(productDto)).collect(Collectors.toList());
+    }
+
+    public List<ProductDto> mapListDto(List<Product> products){
+        return products.stream().map(product -> map(product)).collect(Collectors.toList());
     }
 }

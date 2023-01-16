@@ -23,7 +23,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProducts());
     }
 
-    @GetMapping("{id}")
+    @GetMapping(value = "{id}"/*, produces =*/)
     public ResponseEntity<ProductDto> getProductById(@PathVariable int id/*, ProductDto productDto*/){
         return ResponseEntity.ok(productService.getProductById(id/*, productDto*/));
     }
@@ -53,7 +53,7 @@ public class ProductController {
         productService.deleteProduct(productId);
     }
 
-    //4. ubaci vise razlicitih produkta odjednom  NIJE URADJENO
+    @PostMapping("addMultipleProducts")
     public ResponseEntity<List<ProductDto>> createProduct(@RequestBody List<ProductDto> products){
             return new ResponseEntity<>(productService.addProducts(products), HttpStatus.CREATED);
     }

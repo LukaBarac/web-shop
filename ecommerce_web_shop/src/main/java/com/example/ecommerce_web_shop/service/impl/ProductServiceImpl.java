@@ -52,8 +52,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> addProducts(List<ProductDto> products) {
-        return null;  //poradi na ovome
+    public List<ProductDto> addProducts(List<ProductDto> productDtos) {         // radi
+        var products = productRepository.saveAll(productMapper.mapList(productDtos));
+        return productMapper.mapListDto(products);
     }
 
     @Override

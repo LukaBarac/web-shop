@@ -32,12 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(POST, "/role/").permitAll();
         http.authorizeRequests().antMatchers(POST, "/users/").permitAll();  // mora zbog create drop
         http.authorizeRequests().antMatchers(GET, "/products/").permitAll();
-        http.authorizeRequests().antMatchers(GET, "/products/**").permitAll(); // samo za probu retrofita!!!!!
+//        http.authorizeRequests().antMatchers(GET, "/products/**").permitAll(); // samo za probu retrofita!!!!!
         http.authorizeRequests().antMatchers(GET, "/users/**").hasAnyAuthority("ROLE_MANAGER");
         http.authorizeRequests().antMatchers(PUT, "/users/**").hasAnyAuthority("ROLE_MANAGER");
         http.authorizeRequests().antMatchers(DELETE, "/users/**").hasAnyAuthority("ROLE_MANAGER");
-//        http.authorizeRequests().antMatchers(POST, "/products/**").hasAnyAuthority("ROLE_MANAGER");
-        http.authorizeRequests().antMatchers(POST, "/products/**").permitAll(); //SAMO ZA RETROFIT PROBU
+        http.authorizeRequests().antMatchers(POST, "/products/**").hasAnyAuthority("ROLE_MANAGER");
+//        http.authorizeRequests().antMatchers(POST, "/products/**").permitAll(); //SAMO ZA RETROFIT PROBU
         http.authorizeRequests().antMatchers(DELETE, "/products/**").hasAnyAuthority("ROLE_MANAGER");
         http.authorizeRequests().antMatchers(GET, "/basket/").hasAnyAuthority("ROLE_MANAGER");
         http.authorizeRequests().antMatchers(GET, "/basket/ceobasket/{basketId}").hasAnyAuthority("ROLE_MANAGER", "ROLE_CUSTOMER");

@@ -23,25 +23,14 @@ public class UserMapper {
                 userDto.getEmail());
     }
 
-
     public User map(CreateUserDto createUserDto){
         return new User(createUserDto.firstName(),
                 createUserDto.lastName(),
                 createUserDto.email(),
-                createUserDto.password()); // ja ovde samo mapiram u Usera, a roleName cu da hvatam iz roleRepository u servisu
+                createUserDto.password());
     }
 
-    public User mapUpdatedUser(UserDto userDto, User user){     // ako dodeljujem
-                                                                // promenljivoj u servisu onda mora tip User
-/*
-        if(userDto.getFirstName() != null &&
-           userDto.getLastName() != null &&
-            userDto.getEmail() != null) {
-            user.setFirstName(userDto.getFirstName());
-            user.setLastName(userDto.getLastName());    //ovo ima smisla da je PUT
-            user.setEmail(userDto.getEmail());
-        }*/
-
+    public User mapUpdatedUser(UserDto userDto, User user){
         if(userDto.getFirstName() != null) {
             user.setFirstName(userDto.getFirstName());
         }
@@ -51,7 +40,6 @@ public class UserMapper {
         if(userDto.getEmail() != null) {
             user.setEmail(userDto.getEmail());
         }
-
         return user;
     }
 }

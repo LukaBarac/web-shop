@@ -15,7 +15,7 @@ public interface ProductService {
 
     ProductDto createProduct(ProductDto productDto);
 
-    List<ProductDto> addProducts(List<ProductDto> products);
+    List<ProductDto> addProducts(List<ProductDto> productDtos);
 
     void deleteProduct(int productId);
 
